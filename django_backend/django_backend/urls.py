@@ -15,14 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from backend.views import TestConnectionView
-from backend.views import ImageUploadView
+from backend.views import TestConnectionView, ImageUploadView, StoreTokenView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/test-connection/', TestConnectionView.as_view()),
     path('api/upload-images/', ImageUploadView.as_view()),
+    path('api/store-token/', StoreTokenView.as_view())
 ]
 
 if settings.DEBUG:

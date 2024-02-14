@@ -17,23 +17,21 @@ function UserProfile({ session }) {
             formData.append('images', file); // Note: 'images' should match backend API
         });
         
-        // ... (Use fetch or Axios to send formData to Django endpoint) ... 
-        // using fetch API
         fetch('http://localhost:8000/api/upload-images/', { // Adjust your Django endpoint URL
             method: 'POST',
             body: formData,
+            headers: {
+                // Include the Authorization header with the Bearer token
+                Authorization: `Bearer ${session.accessToken}`,
+            },
         }).then(response => {
             if (response.ok) {
             // ... handle successful response ...
             } else { 
             // ... handle error ...
             }
-        }); 
-        
-        // (Axios would be similar but involve installing the Axios library) 
-  
+        });
     }; 
-    
 
     return (
         <div className="profile-card"> 
