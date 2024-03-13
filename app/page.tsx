@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
+import Image from "next/image";
 
 export default function Home() {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -85,11 +86,13 @@ export default function Home() {
     <>
       <div className="flex-grow min-h-60">
         <h2 className="text-xl font-thin mb-5">Pending Images:</h2>
-        <div className="grid grid-cols-3 items-center justify-center gap-5">
+        <div className="grid grid-cols-3 lg:grid-cols-5 items-center justify-center gap-5">
           {images.map((image: any) => (
             <div key={image.id} className="overflow-clip">
-              <img
-                src={`https://drive.google.com/thumbnail?id=${image.googleId}&sz=w200`}
+              <Image
+                width={300}
+                height={300}
+                src={`https://drive.google.com/thumbnail?id=${image.googleId}&sz=w300`}
                 alt={image.name}
               />
             </div>

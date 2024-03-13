@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provide";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,9 +29,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col p-5 gap-5 sm:h-5/6 h-full font-thin">
+            <div className="flex flex-col p-5 gap-5 sm:h-5/6 h-full font-thin max-w-3xl m-auto">
               <Navbar />
               {children}
+              <Footer />
             </div>
             <Toaster />
           </ThemeProvider>
