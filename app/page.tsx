@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import Image from "next/image";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Home() {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -18,6 +19,7 @@ export default function Home() {
   const [images, setImages] = useState<any[]>([]);
   const [token, setToken] = useState<string>("");
   const [quota, setQuota] = useState(-2);
+  const { toast } = useToast();
   const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +39,11 @@ export default function Home() {
         console.log("Upload response:", response.data.files);
       } catch (error) {
         console.error("Upload error:", error);
+        toast({
+          title: "Error",
+          description: "Failed to upload images",
+          variant: "destructive",
+        });
       }
       setUploading(false);
     }
@@ -49,6 +56,11 @@ export default function Home() {
         setImages(response.data.images);
       } catch (error) {
         console.error("List images error:", error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch images",
+          variant: "destructive",
+        });
       }
     };
     fetchImages();
@@ -64,6 +76,11 @@ export default function Home() {
       console.log("Push to Instagram response:", response.data);
     } catch (error) {
       console.error("Push to Instagram error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to push images to Instagram",
+        variant: "destructive",
+      });
     } finally {
       setPushing(false);
     }

@@ -60,10 +60,11 @@ export default function SettingPage() {
       const response = await axios.get("/api/settings");
       setigUserId(response.data.igUserId);
       setGoogleFolderId(response.data.googleFolderId);
-      // set values to form
+
       form.setValue("igUserId", response.data.igUserId);
       form.setValue("googleFolderId", response.data.googleFolderId);
     } catch (e) {
+      console.log(e);
       toast({
         title: "Error",
         description: "Error getting settings",
@@ -74,7 +75,7 @@ export default function SettingPage() {
 
   useEffect(() => {
     getSettings();
-  });
+  }, []);
 
   return (
     <div className="">
@@ -103,12 +104,12 @@ export default function SettingPage() {
                 name="googleFolderId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>igUserId</FormLabel>
+                    <FormLabel>googleFolderId</FormLabel>
                     <FormControl>
                       <Input placeholder={googleFolderId} {...field} />
                     </FormControl>
                     <FormDescription>
-                      Your Facebook dev account public page user id
+                      Your Google Drive folder id
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

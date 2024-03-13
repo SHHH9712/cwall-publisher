@@ -9,10 +9,11 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const igUserId = await prismadb.user.findUnique({
+  const response = await prismadb.user.findUnique({
     where: { userId },
     select: { igUserId: true },
   });
+  const igUserId = response?.igUserId;
 
   if (!igUserId) {
     return new Response("Instagram user not found", { status: 404 });
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
       });
     } catch (error) {
       console.error("Push to Instagram error:", error);
-      return new Response("Push to Instagram error", { status: 500 });
+      return new Response(`Push to Instagram error ${error}`, { status: 500 });
     }
   });
 

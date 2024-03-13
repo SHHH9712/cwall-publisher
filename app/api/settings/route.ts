@@ -13,7 +13,12 @@ export async function GET(request: Request) {
   });
 
   if (!response) {
-    return new NextResponse("Error getting settings", { status: 500 });
+    return new NextResponse(
+      JSON.stringify({
+        igUserId: "",
+        googleFolderId: "",
+      })
+    );
   }
 
   return new NextResponse(
@@ -33,18 +38,35 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    await prismadb.user.update({
+    const existingdata = await prismadb.user.findUnique({
       where: {
         userId,
       },
-      data: {
-        igUserId: body.igUserId,
-        googleFolderId: body.googleFolderId,
-      },
     });
+
+    if (!existingdata) {
+      await prismadb.user.create({
+        data: {
+          userId,
+          igUserId: body.igUserId,
+          googleFolderId: body.googleFolderId,
+        },
+      });
+    } else {
+      await prismadb.user.update({
+        where: {
+          userId,
+        },
+        data: {
+          igUserId: body.igUserId,
+          googleFolderId: body.googleFolderId,
+        },
+      });
+    }
 
     return new NextResponse("Success");
   } catch (e) {
+    console.error(e);
     return new NextResponse("Error saving settings", { status: 500 });
   }
 }
