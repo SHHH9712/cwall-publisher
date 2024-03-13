@@ -56,6 +56,13 @@ This project is open-sourced under the MIT License.
 
 ## Roadmap
 
-- [ ] Add ability to remove photo
-- [ ] Add one button push to Ins function
-- [ ] Upload history observability page
+- Add ability to remove photo
+- Add one button push to Ins function
+- Upload history observability page
+- persist Facebook Access Token
+- (?)Facebook OAuth
+
+Bug fixes pending
+
+- pending images not updating after push to ins
+- Better error message display for Google Drive permission
