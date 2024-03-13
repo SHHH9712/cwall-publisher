@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CWALL Content Publisher
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/-Next.js-black?style=flat-square&logo=next.js)
+![Tailwind CSS](https://img.shields.io/badge/-TailwindCSS-21358E?style=flat-square&logo=tailwind-css)
+![TypeScript](https://img.shields.io/badge/-TypeScript-black?style=flat-square&logo=typescript)
+![Prisma](https://img.shields.io/badge/-Prisma-3982CE?style=flat-square&logo=prisma)
+![shadcn/ui](https://img.shields.io/badge/-shadcn%2Fui-38B2AC?style=flat-square)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-black?style=flat-square&logo=postgresql)
+![Clerk](https://img.shields.io/badge/-Clerk-0077B5?style=flat-square&logo=clerk)
 
-First, run the development server:
+CWALL Content Publisher is a utility web application designed to streamline the process of programmatically uploading content to Instagram accounts using the Instagram Graph API's content publish endpoints. It leverages Google Drive as an image repository, allowing users to select their own folders for uploading content seamlessly.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Instagram Graph API Integration**: Utilize Instagram's content publishing capabilities to upload content directly to your Instagram account.
+- **Google Drive Integration**: Select images from your own Google Drive folder to upload to Instagram.
+- **Quota Management**: Keeps track of your daily posting limit with a visible indicator on the main page, noting the remaining quota out of the 50 post limit enforced by Facebook.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To use CWALL Content Publisher, you need to meet the following requirements:
 
-## Learn More
+1. **Instagram Account Type**: A Business or Creator Instagram account is necessary.
+2. **Facebook Developer Account**: Create a Facebook Developer account and connect it to your Instagram account. A detailed guide is available here: [Register as a Meta Developer](https://developers.facebook.com/docs/development/register/).
+3. **Google Drive Folder**: Create a shared Google Drive folder and note its folder ID from the URL.
+4. **Graph API Explorer Access**: Access to the [Graph API Explorer](https://developers.facebook.com/tools/explorer/) to obtain an access token with the following permissions: `pages_show_list`, `business_management`, `instagram_basic`, `instagram_content_publish`.
+5. **Instagram User ID**: Follow this guide: [getting started with Graph API](https://developers.facebook.com/docs/instagram-api/getting-started) to obtain your Instagram user ID (Steps 1-5).
 
-To learn more about Next.js, take a look at the following resources:
+## Setup and Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Step 1: Prepare Your Accounts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Ensure you have fulfilled all the prerequisites mentioned above, including setting up your Instagram and Facebook Developer accounts, and creating a shared Google Drive folder.
 
-## Deploy on Vercel
+### Step 2: Obtain Necessary IDs and Tokens
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Obtain your Instagram User ID and Google Drive folder ID as per the guides.
+- Use the Graph API Explorer to grab your access token with the necessary permissions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Step 3: Configuration
+
+Login to CWALL Content Publisher using your Google account and navigate to the settings page. Enter your Instagram User ID and Google Drive folder ID to complete the configuration.
+
+## Limitations
+
+Please note that there is a daily limit of 50 posts as enforced by Facebook. This limit cannot be bypassed, but you can monitor your remaining quota via the indicator on the main page.
+
+## License
+
+This project is open-sourced under the MIT License.
