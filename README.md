@@ -8,6 +8,8 @@
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-black?style=flat-square&logo=postgresql)
 ![Clerk](https://img.shields.io/badge/-Clerk-0077B5?style=flat-square&logo=clerk)
 
+Visit [cwall-publisher](https://cwall-publisher.vercel.app) to try it out!
+
 CWALL Content Publisher is a utility web application designed to streamline the process of programmatically uploading content to Instagram accounts using the Instagram Graph API's content publish endpoints. It leverages Google Drive as an image repository, allowing users to select their own folders for uploading content seamlessly.
 
 ![Screenshot 2024-03-12 at 11 14 32 PM](https://github.com/SHHH9712/cwall-publisher/assets/11616440/f1a44f1d-b5f9-4627-8d14-4da7b6b20bce)
