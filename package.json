@@ -36,7 +36,8 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "web-streams-node": "^0.4.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "prisma": "^5.11.0"
   },
   "devDependencies": {
     "@types/node": "^20",
