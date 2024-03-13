@@ -16,7 +16,7 @@ export default function Home() {
   const [pushing, setPushing] = useState(false);
   const [images, setImages] = useState<any[]>([]);
   const [token, setToken] = useState<string>("");
-  const [quota, setQuota] = useState(0);
+  const [quota, setQuota] = useState(-2);
   const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,6 +133,8 @@ export default function Home() {
         <div className="text-center">
           {quota === -1 ? (
             <h1>🔴 The token is invalid or has expired</h1>
+          ) : quota === -2 ? (
+            <h1>🟠 Enter a valid token</h1>
           ) : (
             <h1>🟢 Available quota remaining: {quota}</h1>
           )}
@@ -140,7 +142,7 @@ export default function Home() {
         <Button
           className="w-full h-10"
           onClick={handlePushToInstagram}
-          disabled={pushing}
+          disabled={pushing || quota <= 0}
         >
           3. Push to Instagram
         </Button>
