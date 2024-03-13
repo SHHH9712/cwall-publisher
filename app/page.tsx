@@ -83,6 +83,12 @@ export default function Home() {
       });
     } finally {
       setPushing(false);
+      setImages([]);
+      toast({
+        title: "Success",
+        description: "Images pushed to Instagram",
+        variant: "default",
+      });
     }
   };
 
