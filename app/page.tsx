@@ -99,7 +99,7 @@ export default function Home() {
         token: e.target.value,
       });
       console.log("Quota response:", response.data.data[0].quota_usage);
-      setQuota(response.data.data[0].quota_usage);
+      setQuota(50 - response.data.data[0].quota_usage);
     } catch (error) {
       setQuota(-1);
     }
