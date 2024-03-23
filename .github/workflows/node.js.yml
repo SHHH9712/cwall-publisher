@@ -23,9 +23,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - run: npm run build --if-present
-        env:
-          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      - run: CLERK_SECRET_KEY=${{secrets.CLERK_SECRET_KEY}}
+          DATABASE_URL=${{secrets.DATABASE_URL}}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
+          npm run build --if-present
       - run: echo "${{ secrets.ROOT_PWD }}"  | sudo -S systemctl restart cwall.service
