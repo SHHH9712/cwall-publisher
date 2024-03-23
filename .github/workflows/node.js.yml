@@ -29,4 +29,4 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build --if-present
-      - run: systemctl restart cwall.service
+      - run: sudo systemctl restart cwall.service
