@@ -31,4 +31,4 @@ jobs:
       - run: echo ${{ env.TEST_VARIABLE }}
       - run: npm ci
       - run: npm run build --if-present
-      - run: echo ${{ secrets.ROOT_PWD }} | sudo -S systemctl restart cwall.service
+      - run: echo "${{ secrets.ROOT_PWD }}"  | sudo -S systemctl restart cwall.service
