@@ -16,9 +16,10 @@ jobs:
         node-version: [20.x]
 
     env:
-      CLERK_SECRET_KEY: "${{ secrets.CLERK_SECRET_KEY }}"
-      DATABASE_URL: "${{ secrets.DATABASE_URL }}"
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}"
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      TEST_VARIABLE: something
 
     steps:
       - uses: actions/checkout@v3
@@ -27,6 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - run: echo env.TEST_VARIABLE
       - run: npm ci
       - run: npm run build --if-present
-      - run: echo "${{ secrets.ROOT_PWD }}" | sudo -S systemctl restart cwall.service
+      - run: echo ${{ secrets.ROOT_PWD }} | sudo -S systemctl restart cwall.service
