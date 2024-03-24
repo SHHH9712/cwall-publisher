@@ -25,7 +25,7 @@ jobs:
       - run: npm ci
       - name: Create .env file
         run: |
-          echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> $HOME/actions-runner/_work/cwall-publisher/cwall-publisher/.env
+          echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" > $HOME/actions-runner/_work/cwall-publisher/cwall-publisher/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $HOME/actions-runner/_work/cwall-publisher/cwall-publisher/.env
           echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> $HOME/actions-runner/_work/cwall-publisher/cwall-publisher/.env
         shell: bash
