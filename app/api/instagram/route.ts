@@ -9,6 +9,17 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  if (token == "test ") {
+    // <-- This is the test token
+    images.forEach(async (image: any) => {
+      await prismadb.image.update({
+        where: { userId, id: image.id },
+        data: { toFacebook: true, status: "test" },
+      });
+    });
+    return new Response("Test Submit Executed", { status: 200 });
+  }
+
   const response = await prismadb.user.findUnique({
     where: { userId },
     select: { igUserId: true },

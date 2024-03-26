@@ -1,14 +1,12 @@
 "use client";
 
 import axios from "axios";
-import { UserButton } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Navbar } from "@/components/navbar";
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -83,7 +81,7 @@ export default function Home() {
       });
     } finally {
       setPushing(false);
-      setImages([]);
+      router.refresh();
       toast({
         title: "Success",
         description: "Images pushed to Instagram",
@@ -94,6 +92,10 @@ export default function Home() {
 
   const onTokenChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setToken(e.target.value);
+    if (token === "test") {
+      setQuota(-999);
+      return;
+    }
     try {
       const response = await axios.post("/api/quota", {
         token: e.target.value,
@@ -161,6 +163,8 @@ export default function Home() {
             <h1>🔴 The token is invalid or has expired</h1>
           ) : quota === -2 ? (
             <h1>🟠 Enter a valid token</h1>
+          ) : quota === -999 ? (
+            <h1>🟢 Test token</h1>
           ) : (
             <h1>🟢 Available quota remaining: {quota}</h1>
           )}
@@ -168,7 +172,7 @@ export default function Home() {
         <Button
           className="w-full h-10"
           onClick={handlePushToInstagram}
-          disabled={pushing || quota <= 0}
+          disabled={pushing || quota == -1 || quota == -2 || quota == 0}
         >
           3. Push to Instagram
         </Button>
