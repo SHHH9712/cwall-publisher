@@ -16,6 +16,7 @@ export default function Home() {
   const [pushing, setPushing] = useState(false);
   const [images, setImages] = useState<any[]>([]);
   const [token, setToken] = useState<string>("");
+  const [gettingQuota, setGettingQuota] = useState(false);
   const [quota, setQuota] = useState(-2);
   const { toast } = useToast();
   const router = useRouter();
@@ -47,23 +48,6 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await axios.get("/api/images");
-        setImages(response.data.images);
-      } catch (error) {
-        console.error("List images error:", error);
-        toast({
-          title: "Error",
-          description: "Failed to fetch images",
-          variant: "destructive",
-        });
-      }
-    };
-    fetchImages();
-  }, [uploading, pushing, toast]);
-
   const handlePushToInstagram = async () => {
     try {
       setPushing(true);
@@ -90,22 +74,64 @@ export default function Home() {
     }
   };
 
-  const onTokenChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setToken(e.target.value);
+  const fetchQuota = async () => {
+    console.log(token);
     if (token === "test") {
       setQuota(-999);
       return;
     }
     try {
+      setGettingQuota(true);
       const response = await axios.post("/api/quota", {
-        token: e.target.value,
+        token: token,
       });
       console.log("Quota response:", response.data.data[0].quota_usage);
       setQuota(50 - response.data.data[0].quota_usage);
     } catch (error) {
       setQuota(-1);
+    } finally {
+      setGettingQuota(false);
     }
   };
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get("/api/images");
+        setImages(response.data.images);
+      } catch (error) {
+        console.error("List images error:", error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch images",
+          variant: "destructive",
+        });
+      }
+    };
+    fetchImages();
+
+    const fetchFBToken = async () => {
+      try {
+        const tokenRes = await axios.get("/api/FBToken");
+        console.log("FBToken response:", tokenRes.data);
+        setToken(tokenRes.data.longLiveFBAccessToken);
+        const quotaRes = await axios.post("/api/quota", {
+          token: tokenRes.data.longLiveFBAccessToken,
+        });
+        console.log("Quota response:", quotaRes.data.data[0].quota_usage);
+        setQuota(quotaRes.data.data[0].quota_usage);
+      } catch (error) {
+        console.error("FBToken error:", error);
+        setQuota(-1);
+        toast({
+          title: "Error",
+          description: "Failed to fetch FBToken",
+          variant: "destructive",
+        });
+      }
+    };
+    fetchFBToken();
+  }, [uploading, pushing, toast]);
 
   return (
     <>
@@ -144,29 +170,25 @@ export default function Home() {
         </form>
         <Input
           type="text"
-          placeholder="your token"
-          onChange={onTokenChange}
+          placeholder="You need to setup the token in settings"
           className="w-full h-10"
+          value={token}
+          onChange={(e) => {
+            setToken(e.target.value);
+          }}
         />
-        <Link href="https://developers.facebook.com/tools/explorer/">
-          <Button
-            className="w-full h-10"
-            onClick={() =>
-              router.push("https://developers.facebook.com/tools/explorer/")
-            }
-          >
-            2. Get Facebook Access Token
-          </Button>
-        </Link>
+        <Button className="w-full h-10" onClick={fetchQuota}>
+          2. Validate Token
+        </Button>
         <div className="text-center">
           {quota === -1 ? (
             <h1>🔴 The token is invalid or has expired</h1>
           ) : quota === -2 ? (
-            <h1>🟠 Enter a valid token</h1>
+            <h1>🟠 Please test your token</h1>
           ) : quota === -999 ? (
             <h1>🟢 Test token</h1>
           ) : (
-            <h1>🟢 Available quota remaining: {quota}</h1>
+            <h1>🟢 Available uploads remaining: {50 - quota}</h1>
           )}
         </div>
         <Button

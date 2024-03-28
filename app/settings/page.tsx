@@ -20,21 +20,26 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
 
 const formSchema = z.object({
-  igUserId: z.string().min(0).max(50),
-  googleFolderId: z.string().min(0).max(50),
+  igUserId: z.string(),
+  googleFolderId: z.string(),
+  longLiveFBAccessToken: z.string(),
 });
 
 export default function SettingPage() {
   const [igUserId, setigUserId] = useState<string>("");
   const [googleFolderId, setGoogleFolderId] = useState<string>("");
+  const [longLiveFBAccessToken, setlongLiveFBAccessToken] =
+    useState<string>("");
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       igUserId: igUserId,
       googleFolderId: googleFolderId,
+      longLiveFBAccessToken: longLiveFBAccessToken,
     },
   });
 
@@ -55,27 +60,31 @@ export default function SettingPage() {
     }
   }
 
-  const getSettings = async () => {
-    try {
-      const response = await axios.get("/api/settings");
-      setigUserId(response.data.igUserId);
-      setGoogleFolderId(response.data.googleFolderId);
-
-      form.setValue("igUserId", response.data.igUserId);
-      form.setValue("googleFolderId", response.data.googleFolderId);
-    } catch (e) {
-      console.log(e);
-      toast({
-        title: "Error",
-        description: "Error getting settings",
-        variant: "destructive",
-      });
-    }
-  };
-
   useEffect(() => {
+    const getSettings = async () => {
+      try {
+        const response = await axios.get("/api/settings");
+        setigUserId(response.data.igUserId);
+        setGoogleFolderId(response.data.googleFolderId);
+        setlongLiveFBAccessToken(response.data.longLiveFBAccessToken);
+
+        form.setValue("igUserId", response.data.igUserId);
+        form.setValue("googleFolderId", response.data.googleFolderId);
+        form.setValue(
+          "longLiveFBAccessToken",
+          response.data.longLiveFBAccessToken
+        );
+      } catch (e) {
+        console.log(e);
+        toast({
+          title: "Error",
+          description: "Error getting settings",
+          variant: "destructive",
+        });
+      }
+    };
     getSettings();
-  }, []);
+  }, [toast, form]);
 
   return (
     <div className="">
@@ -110,6 +119,28 @@ export default function SettingPage() {
                     </FormControl>
                     <FormDescription>
                       Your Google Drive folder id
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="longLiveFBAccessToken"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>longLiveFBAccessToken</FormLabel>
+                    <FormControl>
+                      <Input placeholder={longLiveFBAccessToken} {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Your long live Facebook access token, how to get it:{" "}
+                      <a
+                        className="underline"
+                        href="https://www.sociablekit.com/get-facebook-long-lived-user-access-token/#:~:text=As%20you%20will%20see%20in,%2Dlived%20user%20access%20token%E2%80%9D."
+                      >
+                        tutorial
+                      </a>
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

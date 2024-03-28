@@ -17,6 +17,7 @@ export async function GET(request: Request) {
       JSON.stringify({
         igUserId: "",
         googleFolderId: "",
+        longLiveFBAccessToken: "",
       })
     );
   }
@@ -25,6 +26,7 @@ export async function GET(request: Request) {
     JSON.stringify({
       igUserId: response.igUserId,
       googleFolderId: response.googleFolderId,
+      longLiveFBAccessToken: response.longLiveFBAccessToken,
     })
   );
 }
@@ -50,6 +52,7 @@ export async function POST(request: Request) {
           userId,
           igUserId: body.igUserId,
           googleFolderId: body.googleFolderId,
+          longLiveFBAccessToken: body.longLiveFBAccessToken,
         },
       });
     } else {
@@ -60,6 +63,7 @@ export async function POST(request: Request) {
         data: {
           igUserId: body.igUserId,
           googleFolderId: body.googleFolderId,
+          longLiveFBAccessToken: body.longLiveFBAccessToken,
         },
       });
     }
