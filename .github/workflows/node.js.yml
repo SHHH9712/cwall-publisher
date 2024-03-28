@@ -16,6 +16,8 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
     steps:
+      - name: clear cache
+        run: echo "${{ secrets.ROOT_PWD }}" | sudo npm cache clean --force
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -30,4 +32,4 @@ jobs:
           echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> $HOME/actions-runner/_work/cwall-publisher/cwall-publisher/.env
         shell: bash
       - run: npm run build --if-present
-      - run: echo "${{ secrets.ROOT_PWD }}"  | sudo -S systemctl restart cwall.service
+      - run: echo "${{ secrets.ROOT_PWD }}" | sudo -S systemctl restart cwall.service
