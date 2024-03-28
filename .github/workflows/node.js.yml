@@ -17,7 +17,7 @@ jobs:
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
     steps:
       - name: clear cache
-        run: echo "${{ secrets.ROOT_PWD }}" | sudo -S rm -rf /home/runner/actions-runner/_work/cwall-publisher/cwall-publisher/.next
+        run: echo "${{ secrets.ROOT_PWD }}" | sudo -S rm -rf $HOME/actions-runner/_work/cwall-publisher/cwall-publisher/.next
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
