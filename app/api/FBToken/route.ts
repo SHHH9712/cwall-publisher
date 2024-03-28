@@ -15,17 +15,9 @@ export async function GET() {
     },
   });
 
-  if (!response) {
-    return new NextResponse(
-      JSON.stringify({
-        longLiveFBAccessToken: "",
-      })
-    );
-  }
-
   return new NextResponse(
     JSON.stringify({
-      longLiveFBAccessToken: response.longLiveFBAccessToken,
+      longLiveFBAccessToken: response?.longLiveFBAccessToken || "",
     })
   );
 }

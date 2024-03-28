@@ -124,8 +124,9 @@ export default function Home() {
         console.error("FBToken error:", error);
         setQuota(-1);
         toast({
-          title: "Error",
-          description: "Failed to fetch FBToken",
+          title: "Token Error",
+          description:
+            "Token is invalid or has expired, please set Facebook Token in settings.",
           variant: "destructive",
         });
       }
