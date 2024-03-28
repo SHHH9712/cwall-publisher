@@ -62,7 +62,7 @@ export default function Home() {
       }
     };
     fetchImages();
-  }, [uploading, pushing]);
+  }, [uploading, pushing, toast]);
 
   const handlePushToInstagram = async () => {
     try {
