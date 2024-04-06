@@ -31,9 +31,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col p-5 gap-5 h-screen font-thin max-w-5xl m-auto">
+            <div className="flex flex-col p-5 gap-5 h-[100dvh] font-thin max-w-5xl m-auto">
               <Navbar />
-              <main className="flex-1 h-full">{children}</main>
+              <main className="flex-1">{children}</main>
               <Footer />
             </div>
             <Toaster />

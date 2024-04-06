@@ -14,9 +14,9 @@ export async function GET(request: Request) {
       userId,
       toGoogle: true,
       toFacebook: false,
-    }
+    },
   });
-  console.log("images:", images)
+  console.log("List Images:", images);
 
   return new NextResponse(JSON.stringify({ images }));
 }

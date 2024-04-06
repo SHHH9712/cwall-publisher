@@ -24,9 +24,17 @@ export async function GET(request: Request) {
 
   return new NextResponse(
     JSON.stringify({
-      igUserId: response.igUserId,
-      googleFolderId: response.googleFolderId,
-      longLiveFBAccessToken: response.longLiveFBAccessToken,
+      igUserId: response.igUserId
+        ? response.igUserId === "test"
+          ? "test"
+          : "*****"
+        : "",
+      googleFolderId: response.googleFolderId ? "*****" : "",
+      longLiveFBAccessToken: response.longLiveFBAccessToken
+        ? response.longLiveFBAccessToken === "test"
+          ? "test"
+          : "*****"
+        : "",
     })
   );
 }
@@ -39,32 +47,33 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-
-    const existingdata = await prismadb.user.findUnique({
-      where: {
-        userId,
-      },
+    const existingData = await prismadb.user.findUnique({
+      where: { userId },
     });
 
-    if (!existingdata) {
+    const updateData: any = {};
+
+    if (body.igUserId !== "*****") {
+      updateData.igUserId = body.igUserId;
+    }
+    if (body.googleFolderId !== "*****") {
+      updateData.googleFolderId = body.googleFolderId;
+    }
+    if (body.longLiveFBAccessToken !== "*****") {
+      updateData.longLiveFBAccessToken = body.longLiveFBAccessToken;
+    }
+
+    if (!existingData) {
       await prismadb.user.create({
         data: {
           userId,
-          igUserId: body.igUserId,
-          googleFolderId: body.googleFolderId,
-          longLiveFBAccessToken: body.longLiveFBAccessToken,
+          ...updateData,
         },
       });
     } else {
       await prismadb.user.update({
-        where: {
-          userId,
-        },
-        data: {
-          igUserId: body.igUserId,
-          googleFolderId: body.googleFolderId,
-          longLiveFBAccessToken: body.longLiveFBAccessToken,
-        },
+        where: { userId },
+        data: updateData,
       });
     }
 

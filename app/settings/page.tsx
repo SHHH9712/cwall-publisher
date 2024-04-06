@@ -87,11 +87,11 @@ export default function SettingPage() {
   }, [toast, form]);
 
   return (
-    <div className="">
+    <div className="flex h-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-10 justify-between h-full">
-            <div className="">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+          <div className="flex flex-col h-full justify-between">
+            <div className="flex flex-col gap-5">
               <FormField
                 control={form.control}
                 name="igUserId"
@@ -102,7 +102,13 @@ export default function SettingPage() {
                       <Input placeholder={igUserId} {...field} />
                     </FormControl>
                     <FormDescription>
-                      Your Facebook dev account public page user id
+                      Your Facebook dev account public page user id:
+                      <a
+                        className="underline ml-1"
+                        href="https://developers.facebook.com/docs/instagram-api/getting-started#:~:text=Page%20for%20you).-,5.%20Get%20the%20Page%27s%20Instagram%20Business%20Account,-Use%20the%20Page"
+                      >
+                        guide
+                      </a>
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -118,7 +124,13 @@ export default function SettingPage() {
                       <Input placeholder={googleFolderId} {...field} />
                     </FormControl>
                     <FormDescription>
-                      Your Google Drive folder id
+                      Your Google Drive folder id:
+                      <a
+                        className="underline ml-1"
+                        href="https://learn.azuqua.com/connector-reference/googledrive/#:~:text=Navigate%20to%20the%20folder%20in,ID%20would%20be%20%E2%80%9C1dyUEebJaFnWa3Z4n0BFMVAXQ7mfUH11g%E2%80%9D."
+                      >
+                        guide
+                      </a>
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -134,12 +146,12 @@ export default function SettingPage() {
                       <Input placeholder={longLiveFBAccessToken} {...field} />
                     </FormControl>
                     <FormDescription>
-                      Your long live Facebook access token, how to get it:{" "}
+                      Your long live Facebook access token, how to get it:
                       <a
-                        className="underline"
+                        className="underline ml-1"
                         href="https://www.sociablekit.com/get-facebook-long-lived-user-access-token/#:~:text=As%20you%20will%20see%20in,%2Dlived%20user%20access%20token%E2%80%9D."
                       >
-                        tutorial
+                        guide
                       </a>
                     </FormDescription>
                     <FormMessage />

@@ -15,9 +15,13 @@ export async function GET() {
     },
   });
 
+  if (!response) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   return new NextResponse(
     JSON.stringify({
-      longLiveFBAccessToken: response?.longLiveFBAccessToken || "",
+      longLiveFBAccessToken: response.longLiveFBAccessToken,
     })
   );
 }
