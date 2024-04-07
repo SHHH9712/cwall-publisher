@@ -12,6 +12,8 @@ Visit [cwall-publisher](https://cwall.cc) to try it out!
 
 CWALL Content Publisher is a utility web application designed to streamline the process of programmatically uploading content to Instagram accounts using the Instagram Graph API's content publish endpoints. It leverages Google Drive as an image repository, allowing users to select their own folders for uploading content seamlessly.
 
+Currently cwall.cc is only open to invited test user, if you are interested please reach out to [contact@cwall.cc](mailto:contact@cwall.cc).
+
 ## Features
 
 - **Instagram Graph API Integration**: Utilize Instagram's content publishing capabilities to upload content directly to your Instagram account.
