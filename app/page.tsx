@@ -115,7 +115,7 @@ export default function Home() {
             toFacebook: false,
           },
         });
-        console.log("List images response:", response);
+        // console.log("List images response:", response);
         setImages(response.data.images);
       } catch (error) {
         // console.error("List images error:", error);

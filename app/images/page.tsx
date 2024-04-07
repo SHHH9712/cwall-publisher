@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { set } from "react-hook-form";
+import { Separator } from "@radix-ui/react-separator";
 
 interface Image {
   id: number;
@@ -36,10 +37,8 @@ export default function ImageManagement() {
     const response = await axios.get(
       `/api/images?page=${currentPage}&toGoogle=${filterToGoogle}&toFacebook=${filterToFacebook}`
     );
-    console.log(response);
     setTotalPages(response.data.totalPages);
     setImages(response.data.images);
-    console.log(images.length);
   };
 
   const deleteImage = async (imageId: number) => {
@@ -68,7 +67,7 @@ export default function ImageManagement() {
         </Toggle>
       </div>
       <div className="flex-1 w-full">
-        <table className="table-auto w-full">
+        <table className="table-auto w-full gap-5">
           <thead>
             <tr className="text-center">
               <th>ID</th>
@@ -77,6 +76,13 @@ export default function ImageManagement() {
               <th>Delete</th>
             </tr>
           </thead>
+          {images.length === 0 && (
+            <tbody className="text-center">
+              <tr>
+                <td colSpan={4}>No images found</td>
+              </tr>
+            </tbody>
+          )}
           <tbody className="text-center">
             {images.map((image: Image) => (
               <tr key={image.id}>
@@ -86,7 +92,7 @@ export default function ImageManagement() {
                     width={150}
                     height={150}
                     src={`https://drive.google.com/thumbnail?id=${image.googleId}&sz=w300`}
-                    alt={image.name}
+                    alt={`Image: ${image.name}`}
                     className="ml-1 mr-1"
                   />
                 </td>
@@ -106,7 +112,7 @@ export default function ImageManagement() {
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row justify-center gap-2 mt-5">
+      <div className="flex flex-row justify-left gap-2 mt-5 overflow-scroll">
         {Array.from({ length: totalPages }, (_, index) => (
           <Button
             key={index}
