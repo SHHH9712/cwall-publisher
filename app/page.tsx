@@ -109,7 +109,13 @@ export default function Home() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get("/api/images");
+        const response = await axios.get("/api/images", {
+          params: {
+            toGoogle: true,
+            toFacebook: false,
+          },
+        });
+        console.log("List images response:", response);
         setImages(response.data.images);
       } catch (error) {
         // console.error("List images error:", error);
