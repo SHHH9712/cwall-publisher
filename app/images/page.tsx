@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { set } from "react-hook-form";
 import { Separator } from "@radix-ui/react-separator";
+import { Trash2 } from "lucide-react";
+import { useRouter } from "next/router";
 
 interface Image {
   id: number;
@@ -21,7 +23,6 @@ interface Image {
 }
 
 export default function ImageManagement() {
-  const { userId } = useAuth();
   const [images, setImages] = useState<Image[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -46,6 +47,11 @@ export default function ImageManagement() {
     fetchImages();
   };
 
+  const markPublished = async (imageId: number) => {
+    await axios.put(`/api/images/${imageId}`);
+    fetchImages();
+  };
+
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -53,39 +59,35 @@ export default function ImageManagement() {
   return (
     <div className="flex flex-col w-full md:w-5/12 ml-auto mr-auto h-full">
       <div className="mb-4 flex gap-5">
-        {/* <Toggle
-          pressed={filterToGoogle}
-          onPressedChange={(pressed) => setFilterToGoogle(pressed)}
-        >
-          toGoogle
-        </Toggle> */}
         <Toggle
           pressed={filterToFacebook}
-          onPressedChange={(pressed) => setFilterToFacebook(pressed)}
+          onPressedChange={(pressed) => {
+            setImages([]);
+            setFilterToFacebook(pressed);
+          }}
         >
           already uploaded
         </Toggle>
       </div>
       <div className="flex-1 w-full">
-        <table className="table-auto w-full gap-5">
+        <table className="table-auto w-full h-full gap-5">
           <thead>
             <tr className="text-center">
               <th>ID</th>
               <th>Image</th>
-              <th>Time</th>
-              <th>Delete</th>
+              <th>Info</th>
             </tr>
           </thead>
           {images.length === 0 && (
-            <tbody className="text-center">
+            <tbody className="text-center w-full h-full">
               <tr>
-                <td colSpan={4}>No images found</td>
+                <td colSpan={3}>No images found</td>
               </tr>
             </tbody>
           )}
           <tbody className="text-center">
             {images.map((image: Image) => (
-              <tr key={image.id}>
+              <tr className="h-44" key={image.id}>
                 <td>{image.id}</td>
                 <td>
                   <Image
@@ -96,19 +98,38 @@ export default function ImageManagement() {
                     className="ml-1 mr-1"
                   />
                 </td>
-                <td className="w-24">
-                  {new Date(image.uploadedAt).toLocaleString("en-US")}
-                </td>
-                <td>
-                  <Button
-                    onClick={() => deleteImage(image.id)}
-                    variant="destructive"
-                  >
-                    X
-                  </Button>
+                <td className="flex flex-col h-full justify-around items-center">
+                  <div>
+                    {new Date(image.uploadedAt).toLocaleString("en-US", {
+                      dateStyle: "medium",
+                    })}
+                    {"  "}
+                    {new Date(image.uploadedAt).toLocaleString("en-US", {
+                      timeStyle: "short",
+                    })}
+                  </div>
+                  <div>{image.status}</div>
+                  <div className="flex gap-1">
+                    <Button
+                      disabled={filterToFacebook}
+                      onClick={() => markPublished(image.id)}
+                      variant="secondary"
+                    >
+                      Mark as pub
+                    </Button>
+                    <Button
+                      onClick={() => deleteImage(image.id)}
+                      variant="destructive"
+                    >
+                      <Trash2 size={20} />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
+            <tr className="flex-1">
+              <td colSpan={3}></td>
+            </tr>
           </tbody>
         </table>
       </div>

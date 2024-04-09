@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import axios from "axios";
 
+// Get Instagram quota
 export async function GET(request: Request) {
   const { userId } = auth();
   if (!userId) {
@@ -71,6 +72,7 @@ export async function GET(request: Request) {
   }
 }
 
+// Push Image to Instagram
 export async function POST(request: Request) {
   try {
     const { images } = await request.json();
@@ -124,6 +126,7 @@ export async function POST(request: Request) {
       return new Response("Test Submit Executed", { status: 200 });
     }
 
+    // Real mode
     await Promise.all(
       images.map(async (image: { googleId: any; id: any }) => {
         const image_url = `https://drive.google.com/uc?id=${image.googleId}`;
@@ -138,6 +141,12 @@ export async function POST(request: Request) {
             { headers: header }
           );
           const creationId = response.data.id;
+          console.log(
+            "Instagram API: Creation response for image",
+            image.id,
+            ":",
+            response.data
+          );
           const publishResponse = await axios.post(
             `https://graph.facebook.com/v19.0/${igUserId}/media_publish?creation_id=${creationId}`,
             {},
@@ -157,13 +166,23 @@ export async function POST(request: Request) {
               uploadedAt: new Date(),
             },
           });
-        } catch (error) {
+        } catch (error: any) {
           console.error(
             "Instagram API: Push to Instagram error for image",
             image.id,
             ":",
-            error
+            error.response?.status,
+            error.response?.statusText,
+            error.response?.data?.error?.message
           );
+          await prismadb.image.update({
+            where: { userId, id: image.id },
+            data: {
+              toFacebook: false,
+              status: `error: ${error.response?.data?.error?.message}`,
+              uploadedAt: new Date(),
+            },
+          });
         }
       })
     );
