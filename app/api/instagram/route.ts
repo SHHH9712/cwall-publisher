@@ -15,12 +15,6 @@ export async function GET(request: Request) {
     });
     const igUserId = response?.igUserId;
     const token = response?.longLiveFBAccessToken;
-    console.log(
-      "Instagram API: quota getting igUserId:",
-      igUserId,
-      "token:",
-      token
-    );
 
     if (!igUserId) {
       console.error(

@@ -86,16 +86,12 @@ export async function POST(request: Request) {
           });
 
           uploadedFiles.push({ name: file.name, id: fileId });
-        } catch (err) {
+        } catch (error: any) {
           console.error(
             `GoogleDrive Service: Error processing or uploading file ${file.name}:`,
-            err
-          );
-          return new NextResponse(
-            JSON.stringify({
-              error: `Error processing or uploading file ${file.name}`,
-            }),
-            { status: 500 }
+            error.response.status,
+            error.response.statusText,
+            error.response.data.error.message
           );
         }
       }
@@ -105,10 +101,12 @@ export async function POST(request: Request) {
     );
 
     return new NextResponse(JSON.stringify({ files: uploadedFiles }));
-  } catch (err) {
+  } catch (error: any) {
     console.error(
       "GoogleDrive Service: Unexpected error in POST handler:",
-      err
+      error.response.status,
+      error.response.statusText,
+      error.response.data.error.message
     );
     return new NextResponse(
       JSON.stringify({ error: "An unexpected error occurred" }),
@@ -159,11 +157,13 @@ async function uploadFile2GoogleDrive(file: File, folderId: string) {
     });
 
     return response.data.id;
-  } catch (err) {
+  } catch (error: any) {
     console.error(
       "GoogleDrive Service: Error uploading file to Google Drive:",
-      err
+      error.response?.status,
+      error.response?.statusText,
+      error.response?.data?.error?.message
     );
-    throw err;
+    throw error;
   }
 }
