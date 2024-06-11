@@ -180,7 +180,7 @@ export default function Home() {
         <Button
           className="w-full h-10"
           onClick={handlePushToInstagram}
-          disabled={pushing || quota == -1 || quota == -2 || quota == 0}
+          disabled={pushing || quota == -1 || quota == -2 }
         >
           3. Push to Instagram
         </Button>
