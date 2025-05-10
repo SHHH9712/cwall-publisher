@@ -1,6 +1,6 @@
-import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import axios from "axios";
+import prismadb from "@/lib/prismadb";
 
 // Get Instagram quota
 export async function GET(request: Request) {
@@ -123,7 +123,7 @@ export async function POST(request: Request) {
     // Real mode
     await Promise.all(
       images.map(async (image: { googleId: any; id: any }) => {
-        const image_url = `https://drive.google.com/uc?id=${image.googleId}`;
+        const image_url = `https://lh3.googleusercontent.com/d/${image.googleId}`;
         const header = {
           Authorization: `Bearer ${token}`,
         };
@@ -141,6 +141,7 @@ export async function POST(request: Request) {
             ":",
             response.data
           );
+          
           const publishResponse = await axios.post(
             `https://graph.facebook.com/v19.0/${igUserId}/media_publish?creation_id=${creationId}`,
             {},
